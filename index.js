@@ -6,8 +6,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const CHECK = '✅';
   const CROSS = '❌';
-  const dayOrder = ["Tue", "Thu"];
-
+  const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
   const form = document.getElementById("addCourseForm");
   const table = document.getElementById("timetable").querySelector("tbody");
@@ -19,32 +18,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const courseName = courseInput.value.trim();
     if (!courseName) return;
 
-    // Collect checked days into a Set
+    // Get checked days
     const checkedDays = new Set(
       Array.from(form.querySelectorAll('input[name="day"]:checked'))
-        .map((cb) => cb.value)
+        .map(cb => cb.value)
     );
 
-    // Create new table row
+    // New row
     const row = document.createElement("tr");
 
-    // Course cell
+    // Course name cell
     const nameCell = document.createElement("td");
     nameCell.textContent = courseName;
     row.appendChild(nameCell);
 
-    // Day cells
-    dayOrder.forEach((day) => {
+    // Tue/Fri cells
+    dayOrder.forEach(day => {
       const cell = document.createElement("td");
       cell.textContent = checkedDays.has(day) ? CHECK : CROSS;
-      cell.dataset.day = day;
-      cell.className = "day-cell";
       row.appendChild(cell);
     });
 
     table.appendChild(row);
-
-    // Reset form and focus
     form.reset();
     courseInput.focus();
   });
